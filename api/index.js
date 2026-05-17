@@ -4,6 +4,10 @@ import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 dotenv.config();
+import dns from "dns";
+
+// Set the DNS server to use for resolving hostnames this for node js error after 24v it happend
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 mongoose
   .connect(process.env.MONGO)
@@ -13,7 +17,6 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
 const app = express();
 
 app.use(express.json());
