@@ -17,7 +17,8 @@ export default function SignUp() {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch("/api/auth/sign-up", {
+      // requset to the backend say it is post request and send the form data as json
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +26,9 @@ export default function SignUp() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (data.success === false) {
+      // requset send to server but server respond with error like user already exist or something else 
+      // it mean this handle the server error and show the error message to user
+        if (data.success === false) {
         setLoading(false);
         setError(data.message);
         return;
@@ -34,6 +37,8 @@ export default function SignUp() {
       setError(null);
       navigate("/sign-in");
     } catch (error) {
+      // this handle the network error like server is down or something else
+        // it mean handle the frontend error and show the error message to user
       setLoading(false);
       setError(error.message);
     }
