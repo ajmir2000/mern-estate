@@ -45,7 +45,7 @@ export default function SignUp() {
   };
   return (
     <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl text-center font-semibold">SignUp</h1>
+      <h1 className="text-3xl text-center font-semibold">Sign Up</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 ">
         <input
           type="text"
