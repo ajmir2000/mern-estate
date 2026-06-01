@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -26,9 +27,9 @@ export default function SignUp() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      // requset send to server but server respond with error like user already exist or something else 
+      // requset send to server but server respond with error like user already exist or something else
       // it mean this handle the server error and show the error message to user
-        if (data.success === false) {
+      if (data.success === false) {
         setLoading(false);
         setError(data.message);
         return;
@@ -38,7 +39,7 @@ export default function SignUp() {
       navigate("/sign-in");
     } catch (error) {
       // this handle the network error like server is down or something else
-        // it mean handle the frontend error and show the error message to user
+      // it mean handle the frontend error and show the error message to user
       setLoading(false);
       setError(error.message);
     }
@@ -73,6 +74,7 @@ export default function SignUp() {
           className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
           {loading ? "Loading..." : "Sign Up"}
         </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Have an account?</p>
