@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
+import uploadRouter from "./routes/upload.route.js";
+import path from "path";
+
 dotenv.config();
 import dns from "dns";
 
@@ -27,6 +30,12 @@ app.listen(3000, () => {
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+// this route is for store images in uploads folder Local
+app.use("/api/upload", uploadRouter);
+
+// this works this folder on browser and this is for store images in uploads folder Local
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
