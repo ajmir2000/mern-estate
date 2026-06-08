@@ -36,3 +36,17 @@ export const updateUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteUser = async (req, res, next) => {
+  if (req.user.id !== req.params.id)
+    return next(errorHandler(401, "You are not authorized to deletthis user"));
+
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    // you must clear first the cookie and send the header in next line becuse this is rule of http that you must send the header before send the body and if you send the body first then you can't send the header after that becuse the header is already sent and this is error called "Can't set headers after they are sent to the client" 
+    res.clearCookie("access_token");
+    res.status(200).json("User has been deleted!");
+  } catch (error) {
+    next(error);
+  }
+};
