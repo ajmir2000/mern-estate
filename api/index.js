@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import uploadRouter from "./routes/upload.route.js";
+import listingRouter from "./routes/listing.route.js";
 import path from "path";
 import cookieParser from "cookie-parser";
 
@@ -35,6 +36,8 @@ app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 // this route is for store images in uploads folder Local
 app.use("/api/upload", uploadRouter);
+
+app.use("/api/listing", listingRouter);
 
 // this works this folder on browser and this is for store images in uploads folder Local
 const __dirname = path.resolve();
