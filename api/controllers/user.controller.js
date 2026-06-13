@@ -1,6 +1,7 @@
 import bcryptjs from "bcryptjs";
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
+import Listing from "../models/listing.model.js";
 
 export const test = (req, res) => {
   res.send("Api route is work well");
@@ -43,10 +44,24 @@ export const deleteUser = async (req, res, next) => {
 
   try {
     await User.findByIdAndDelete(req.params.id);
-    // you must clear first the cookie and send the header in next line becuse this is rule of http that you must send the header before send the body and if you send the body first then you can't send the header after that becuse the header is already sent and this is error called "Can't set headers after they are sent to the client" 
+    // you must clear first the cookie and send the header in next line becuse this is rule of http that you must send the header before send the body and if you send the body first then you can't send the header after that becuse the header is already sent and this is error called "Can't set headers after they are sent to the client"
     res.clearCookie("access_token");
     res.status(200).json("User has been deleted!");
   } catch (error) {
     next(error);
+  }
+};
+
+// listing controllers section
+export const getUserListings = async (req, res, next) => {
+  if (req.user.id === req.params.id) {
+    try {
+      const listings = await Listing.find({ userRef: req.params.id });
+      res.status(200).json(listings);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    return next(errorHandler(401, "You are not authorized to get this user"));
   }
 };
