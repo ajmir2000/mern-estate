@@ -153,8 +153,26 @@ export default function Profile() {
         return;
       }
       setUserListings(data);
+      console.log(data);
     } catch (error) {
       setShowListingsError(true);
+    }
+  };
+
+  const handleListingDelete = async (listingId) => {
+    try {
+      const { data } = await axios.delete(`/api/listing/delete/${listingId}`);
+      if (data.success === false) {
+        setShowListingsError(true);
+        console.log(data.message);
+
+        return;
+      }
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId),
+      );
+    } catch (error) {
+      console.log(error.message);
     }
   };
   return (
@@ -266,7 +284,7 @@ export default function Profile() {
               className="border p-3 rounded-lg mt-3 flex justify-normal items-center gap-4">
               <Link to={`/listing/${listing._id}`}>
                 <img
-                  src={`http://localhost:3000/${listing.imageUrls[0]}`}
+                  src={`http://localhost:3000${listing.imageUrls[0]}`}
                   alt="listing cover"
                   className="h-16 w-16 object-contain"
                 />
@@ -277,7 +295,11 @@ export default function Profile() {
                 <p>{listing.name}</p>
               </Link>
               <div className="flex flex-col items-center">
-                <button className="text-red-700 uppercase">Delete</button>
+                <button
+                  onClick={() => handleListingDelete(listing._id)}
+                  className="text-red-700 uppercase">
+                  Delete
+                </button>
                 <button className="text-green-700 uppercase">Edit</button>
               </div>
             </div>
