@@ -84,8 +84,11 @@ export const uploadListingImages = (req, res) => {
         message: err.message,
       });
     }
+    // this line of code make bug on windows os beacuse the path is ( \ browser not know that) if we use replaceAll("\\", "/") then the path will be ( / )
 
-    const imageUrls = req.files.map((file) => `/${file.path}`);
+    const imageUrls = req.files.map(
+      (file) => `/${file.path.replaceAll("\\", "/")}`,
+    );
 
     return res.status(200).json({
       success: true,

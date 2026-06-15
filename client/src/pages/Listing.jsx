@@ -55,7 +55,7 @@ export default function Listing() {
                 <div
                   className="h-[550px]"
                   style={{
-                    backgroundImage: `url(http://localhost:3000${url.replaceAll("\\", "/")})`,
+                    backgroundImage: `url(http://localhost:3000${url})`,
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
