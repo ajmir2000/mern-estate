@@ -12,7 +12,8 @@ import {
   FaMapMarkerAlt,
   FaChair,
 } from "react-icons/fa";
-
+import { useSelector } from "react-redux";
+import Contact from "../components/Contact";
 export default function Listing() {
   SwiperCore.use([Navigation]);
   const params = useParams();
@@ -20,6 +21,8 @@ export default function Listing() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
+  const [contact, Setcontact] = useState(false);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -38,7 +41,7 @@ export default function Listing() {
         setListing(data.listing);
         setLoading(false);
         setError(false);
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         setError(true);
         setLoading(false);
@@ -143,6 +146,14 @@ export default function Listing() {
                 {listing.furnished > 1 ? "Furnished" : "Unfurnished"}
               </li>
             </ul>
+            {currentUser && listing.userRef !== currentUser._id && !contact && (
+              <button
+                onClick={() => Setcontact(true)}
+                className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3">
+                Contact Landlord
+              </button>
+            )}
+            {contact && <Contact listing={listing} />}
           </div>
         </div>
       )}
