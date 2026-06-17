@@ -174,3 +174,76 @@ export const getListing = async (req, res, next) => {
     next(error);
   }
 };
+
+// =========================
+// Get all listings by query
+// =========================
+export const getListings = async (req, res, next) => {
+  try {
+    // Number of listings to return per request (default: 9)
+    const limit = parseInt(req.query.limit) || 9;
+
+    // Number of listings to skip for pagination (default: 0)
+    const startIndex = parseInt(req.query.startIndex) || 0;
+
+    // Filter by offer status, or include all if not specified
+    let offer = req.query.offer;
+    if (offer === undefined || offer === "false") {
+      offer = { $in: [true, false] };
+    }
+
+    // Filter by furnished status, or include all
+    let furnished = req.query.furnished;
+    if (furnished === undefined || furnished === "false") {
+      furnished = { $in: [true, false] };
+    }
+
+    // Filter by parking status, or include all
+    let parking = req.query.parking;
+    if (parking === undefined || parking === "false") {
+      parking = { $in: [true, false] };
+    }
+
+    // Filter by listing type (rent/sale), or include both
+    let type = req.query.type;
+    if (type === undefined || type === "all") {
+      type = { $in: ["rent", "sale"] };
+    }
+
+    // Search text for listing name
+    const searchTerm = req.query.searchTerm || "";
+
+    // Field used for sorting results
+    const sort = req.query.sort || "createdAt";
+
+    // Sort direction: asc or desc
+    const order = req.query.order || "desc";
+
+    // Find listings based on filters and search criteria
+    const listings = await Listing.find({
+      // Case-insensitive search by listing name
+      name: { $regex: searchTerm, $options: "i" },
+      offer,
+      furnished,
+      parking,
+      type,
+    })
+      // Sort results dynamically
+      .sort({ [sort]: order })
+
+      // Limit number of returned listings
+      .limit(limit)
+
+      // Skip listings for pagination
+      .skip(startIndex);
+
+    // Send filtered listings to client
+    return res.status(200).json({
+      success: true,
+      listings,
+    });
+  } catch (error) {
+    // Forward errors to error-handling middleware
+    next(error);
+  }
+};

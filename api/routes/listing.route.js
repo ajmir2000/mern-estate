@@ -5,6 +5,7 @@ import {
   deleteListing,
   updateListing,
   getListing,
+  getListings,
 } from "../controllers/listing.controller.js";
 
 import { verfiyToken } from "../utils/verifyToken.js";
@@ -18,6 +19,8 @@ router.post("/uploadListingImages", verfiyToken, uploadListingImages);
 router.post("/create", verfiyToken, createListing);
 router.delete("/delete/:id", verfiyToken, deleteListing);
 router.post("/update/:id", verfiyToken, updateListing);
+// this route is for getting listing by id for all users
 router.get("/get/:id", getListing);
-
+// this route if for search listing for all users
+router.get("/get", getListings);
 export default router;
