@@ -46,7 +46,7 @@ export default function Home() {
           place with ease
         </h1>
         <div className="text-gray-400 text-xs sm:text-sm">
-          Ajmir Estate is the best palce to find you next perfect place to live.
+          Arzoo Estate is the best palce to find you next perfect place to live.
           <br />
           We have a wide range of properties for you to choose from.
         </div>
