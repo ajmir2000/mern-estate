@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: mern-estate
+    env: node
+    branch: main
+    buildCommand: npm run build
+    startCommand: npm start
