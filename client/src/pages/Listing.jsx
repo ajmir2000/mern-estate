@@ -100,7 +100,7 @@ export default function Listing() {
             <p className="text-2xl font-semibold">
               {listing.name} - ${""}
               {listing.offer
-                ? listing.discountPrice.toLocaleString("en-US")
+                ? `${listing.discountPrice.toLocaleString("en-US")} OFF`
                 : listing.regularPrice.toLocaleString("en-US")}
               {listing.type === "rent" && " / Month"}
             </p>
@@ -114,7 +114,7 @@ export default function Listing() {
               </p>
               {listing.offer && (
                 <p className="bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                  ${+listing.regularPrice - +listing.discountPrice} OFF
+                  ${+listing.regularPrice - +listing.discountPrice}
                 </p>
               )}
             </div>
@@ -122,7 +122,7 @@ export default function Listing() {
               <span className="font-semibold text-black">Description - </span>
               {listing.description}
             </p>
-            <ul className="text-green-900 font-semibold text-sm flex items-center gap-4 sm:gap-6 flex flex-wrap">
+            <ul className="text-green-900 font-semibold text-sm flex items-center gap-4 sm:gap-6  flex-wrap">
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaBed />{" "}
                 {listing.bedrooms > 1
