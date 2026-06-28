@@ -24,6 +24,9 @@ mongoose
   });
 const app = express();
 
+const __dirname = path.resolve();
+
+
 app.use(express.json());
 
 app.use(cookieParser());
@@ -39,8 +42,13 @@ app.use("/api/upload", uploadRouter);
 
 app.use("/api/listing", listingRouter);
 
+// for blind folder
+app.use(express.static(path.join(__dirname, "/client/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 // this works this folder on browser and this is for store images in uploads folder Local
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.use((err, req, res, next) => {
